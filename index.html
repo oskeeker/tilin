@@ -1,0 +1,54 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style id="compiled-css">
+        body {
+            background-color: black;
+        }
+        /*#canvas {*/
+        /*    border:1px solid red;*/
+        /*}*/
+
+    </style>
+</head>
+<body>
+<canvas id="canvas" width=5000 height=5000></canvas>
+<script type='text/javascript'>
+    var canvasPara = document.getElementById("canvas");
+    var ctxPara = canvasPara.getContext("2d");
+    canvasPara.width = window.innerWidth;
+    canvasPara.height = window.innerHeight;
+    var fly = function () {
+        var newParachute = new parachute();
+        setInterval(function () {
+            newParachute.animate.call(newParachute);
+        }, newParachute.speed);
+    };
+    var parachute = function () {
+        // this.height = 35;
+        // this.width = 30;
+        this.speed = 10;
+        // this.xPos = Math.round(Math.random() * (window.innerWidth - this.width));
+        // just for this demo--keep image on iframe
+        // this.xPos = Math.floor(Math.random() * 1000) + 1;
+        this.xPos = canvasPara.width / 4;
+        this.img = new Image();
+        this.yPos = -1000;
+        this.img.isLoaded = false;
+        this.img.onload = function () {
+            this.isLoaded = true;
+        };
+        this.img.src = 'tilin.jpg';
+        this.animate = function () {
+            if (this.img.isLoaded) {
+                ctxPara.clearRect(0, 0, canvasPara.width, canvasPara.height);
+                ctxPara.drawImage(this.img, this.xPos, this.yPos);
+                this.yPos++;
+            }
+        };
+    };
+    fly();
+
+</script>
+</body>
+</html>
